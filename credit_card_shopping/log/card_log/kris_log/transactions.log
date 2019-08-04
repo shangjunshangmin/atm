@@ -1,0 +1,24 @@
+2019-08-03 16:12:50,655 - transaction - INFO - 用户:kris  操作:withdraw  金额:1231321321.0   利息:61566066.050000004 现在账户余额：28377.0 不够
+2019-08-03 16:14:23,159 - transaction - INFO - 用户:kris   操作:withdraw    金额:13131.0   利息:656.5500000000001
+2019-08-03 16:14:28,165 - transaction - INFO - 用户:kris  操作:withdraw  金额:131313131.0   利息:6565656.550000001 现在账户余额：14589.45 不够
+2019-08-03 16:14:28,165 - transaction - INFO - 用户:kris  操作:withdraw  金额:131313131.0   利息:6565656.550000001 现在账户余额：14589.45 不够
+2019-08-03 16:16:40,592 - transaction - INFO - 用户:kris   操作:repay    金额:121.0   利息:0.0
+2019-08-03 19:31:41,765 - transaction - INFO - 用户:kris   操作:transfer    金额:120.0   利息:6.0
+2019-08-03 19:31:41,826 - transaction - INFO - 用户：kris转账120
+2019-08-03 19:42:22,809 - transaction - INFO - 用户:kris   操作:transfer    金额:12.0   利息:0.6000000000000001
+2019-08-03 19:42:22,814 - transaction - INFO - 用户：kris转账12
+2019-08-03 19:47:06,121 - transaction - INFO - 用户:kris   操作:transfer    金额:123.0   利息:6.15
+2019-08-03 19:47:06,127 - transaction - INFO - 用户：kris转账123 yuan
+2019-08-03 19:48:27,512 - transaction - INFO - 用户:kris   操作:transfer    金额:123.0   利息:6.15
+2019-08-03 19:48:27,517 - transaction - INFO - 用户：kris转账123 yuan
+2019-08-03 19:55:38,276 - transaction - INFO - 用户:kris   操作:transfer    金额:121.0   利息:6.050000000000001
+2019-08-03 19:55:38,282 - transaction - INFO - 用户：kris转账121 yuan
+2019-08-03 19:59:49,938 - transaction - INFO - 用户:kris   操作:transfer    金额:12.0   利息:0.6000000000000001
+2019-08-03 19:59:49,943 - transaction - INFO - 用户：kris转账12
+2019-08-03 20:01:15,645 - transaction - INFO - 用户:kris   操作:transfer    金额:1233.0   利息:61.650000000000006
+2019-08-03 20:01:15,651 - transaction - INFO - 用户：sj转账1233
+2019-08-03 20:11:11,460 - transaction - INFO - 用户：sj转账10
+2019-08-03 20:15:45,309 - transaction - INFO - 用户:user1   操作:transfer    金额:10.0   利息:0.5
+2019-08-03 20:15:45,315 - transaction - INFO - 用户：sj转账10
+2019-08-03 20:15:45,315 - transaction - INFO - 用户：sj转账10
+2019-08-03 20:17:45,586 - transaction - INFO - 用户：sj转账110
