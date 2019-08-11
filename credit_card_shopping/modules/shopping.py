@@ -3,18 +3,20 @@ __author__ = 'JUN SHANG'
 __date__ = '2019/7/27 0027 下午 11:15'
 import os, sys, logging
 
+from credit_card_shopping.conf import settings
+from credit_card_shopping.modules import accounts
+from credit_card_shopping.log import logger
+from credit_card_shopping.core.auth import login_required
+from credit_card_shopping.modules import transaction
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-shop_path = BASE_DIR + r'\db\product_list'
-shop_car_path = BASE_DIR + r'\db\shop_car'
-# shop_car_paths = shop_car_path + '\%s_shopcar.txt %user_account["username"]'
-
-db_path = BASE_DIR + r'\db\user_info'
-log_path = BASE_DIR + r'\log\shop_log\%s_shop.log %user_account["username"]'
-from PythonMaster.credit_cart_shopping.core import main
-from PythonMaster.credit_cart_shopping.log import loggers
+shop_path = settings.shop_path
+shop_car_path = settings.shop_car_path
+shop_log_path = settings.shop_log_path
 
 
+@login_required
 def shopping(user_account):
     # 定义一个购物商城函数
     shopcar_list, pro_list = [], []  # shopcar_list:购物车列表   pro_list:商品清单列表
@@ -25,6 +27,7 @@ def shopping(user_account):
     def shop_info():
         print("\t编号\t\t\t商品\t\t\t价格")
         for index, item in enumerate(pro_list):
+            # print(enumerate(pro_list))
             print('\t %s\t\t\t%s\t\t%s' % (index, item[0], item[1]))
 
     while True:
@@ -41,7 +44,7 @@ def shopping(user_account):
                     if num > 0:
                         print("\33[31;0m商品 %s 加入购物车 价格%s 数量%s\33[0m" % (pro_item[0], pro_item[1], num))
                         shopcar_list.append(pro_item)
-                        shop_car_paths = shop_car_path + '\%s_shopcar.txt' % user_account['username']
+                        shop_car_paths = shop_car_path % user_account['account_data']['username']
                         with open(shop_car_paths, 'a', encoding='utf-8') as fc:
                             fc.write(str('%s\t%s\t%s') % (pro_item[0], pro_item[1], num) + '\n')
                     else:
@@ -51,16 +54,17 @@ def shopping(user_account):
             else:
                 print("\33[31;0m错误：没有相应的编号 请重新输入:\33[0m\n")
         elif choice_id == "b":
-            main.shop_info()
+            print('退出')
+            break
         else:
             print("\33[31;0m错误：没有相应的编号 请重新输入:\33[0m\n")
 
 
+@login_required
 def shop_car(user_account):
     # 定义一个购物车函数
     money_list, product_list = [], []
-    product_info = ''
-    shop_car_paths = shop_car_path + '\%s_shopcar.txt' % user_account['username']
+    shop_car_paths = shop_car_path % user_account['account_data']['username']
     if not os.path.isfile(shop_car_paths):
         print('\033[31;1m您还未有购物记录，请先进入商城购物\033[0m')
         shopping(user_account)
@@ -83,40 +87,33 @@ def shop_car(user_account):
         if sum(money_list) == 0:  # sum(money_list) = 购物车所有商品总金额
             print('\033[31;1m购物车空空如也\033[0m')
         else:
-            db_path_user = db_path + '\%s.json' % user_account["username"]
-            with open(db_path_user, 'r', encoding='utf-8') as fh:
-                fr = fh.read()
-                fd = eval(fr)
+            fd = accounts.load_current_balance(user_account['account_data']['username'])
             print('\n\33[33;0m您当前余额为 %s 元，当前商品金额为 %s 元' % (fd['balance'], sum(money_list)))
             go_shop = input("\n\33[34;0m是否选择购买 "
                             "任意键：购买 /【返回输入b】\33[0m：")  # 使用sum方法求出购物车商品总支付金额
             if go_shop == 'b':
-                main.shop_info()
+                print('返回重新选择')
             else:
                 if sum(money_list) < fd["balance"]:  # 判断用户余额买得起购物商品
                     balance = fd["balance"] - sum(money_list)  # 当前余额 = 原余额-商品总额
                     log = ('\033[31;1m尊敬的用户您已成功购物 %s ，购物总额为 %s 元，您购物后余额: %s元!\033[0m'
                            % (str(product_list), sum(money_list), balance))
-                    loggers.shop_log(user_account['username'], log)  # 调用购物日志打印函数
+                    transaction.make_transaction(account_data=fd, tran_type='consume', amount=sum(money_list))
+                    logger.shop_log(user_account['account_data']['username'], log)  # 调用购物日志打印函数
                     print("\033[33;1m购物成功！余额为: ￥%s\033[0m" % balance)
-                    with open(db_path_user, 'w', encoding='utf-8') as fh:
-                        res = fr.replace(str(fd["balance"]), str(balance))  # 修改用户文件操作
-                        fh.write(res)
-                    shop_car_paths = shop_car_path + '\%s_shopcar.txt %user_account["username"]'
+                    shop_car_paths = shop_car_path % user_account['account_data']["username"]
                     with open(shop_car_paths, 'w', encoding='utf-8') as fc:
-                        # fc.seek(0)
                         fc.truncate(0)  # 购物支付完成后 购物车文件清空
                 else:
                     print("\33[31;0m对不起您的余额不足无法购买:\33[0m\n")
-    main.shop_info()
 
 
+@login_required
 def center(user_account):
     # 定义一个查看购物记录的函数
-    if not os.path.isfile(log_path % user_account["username"]):
+    if not os.path.isfile(shop_log_path % user_account['account_data']["username"]):
         print('\033[31;1m当前用户无流水记录\033[0m')
     else:
-        with open(log_path % user_account["username"], 'r', encoding='utf-8') as fh:
+        with open(shop_log_path % user_account['account_data']["username"], 'r', encoding='utf-8') as fh:
             for line in fh:
                 print(line)
-    main.shop_info()
