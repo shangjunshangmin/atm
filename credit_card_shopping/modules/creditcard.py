@@ -55,6 +55,9 @@ def repay(user_account):
 
 @login_required
 def withdraw(acc_data):
+    """
+    提现
+    """
     account_data = accounts.load_current_balance(acc_data['account_data']['username'])
     current_balance = ''' --------- BALANCE INFO --------
         Credit :    %s
@@ -118,6 +121,8 @@ def transfer(user_account):
                                 if data:
                                     account_data_transfer['balance'] = account_data_transfer['balance'] + money
                                     accounts.dump_account(account_data_transfer)
+
+
                     else:
                         print('\033[31;1m请输入有效转账金额\033[0m')
             else:
@@ -126,12 +131,16 @@ def transfer(user_account):
 
 
 def paycheck(user_account):
+    """
+
+    账单
+    """
     if not os.path.isfile(log_path % (user_account['account_data']["username"], 'transactions.log')):
         print('\033[31;1m当前用户无流水记录\033[0m', log_path % (user_account['account_data']["username"], "transactions.log"))
 
     else:
         print(log_path % (user_account['account_data']["username"],"transactions.log"))
-        with open(log_path % (user_account['account_data']["username"], 'transactions.log'), 'r',
-                  ) as fh:
+        with open(log_path % (user_account['account_data']["username"], 'transactions.log'), 'rb',
+                  encoding='utf-8') as fh:
             for line in fh:
                 print(line)
