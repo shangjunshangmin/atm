@@ -26,13 +26,16 @@ def acc_auth2(account, password, retry):
     """用户认证"""
     data = accounts.load_current_balance(account)
     all_count = user_login_authentication_count
-    print('总次数', all_count)
     # retry_count = user_login_authentication_count + 1
     if data:
         if data['password'] == password:
             exp_time_stamp = datetime.strptime(data['expire_date'], "%Y-%m-%d")
             if datetime.now() > exp_time_stamp:
                 print("\033[31;1m用户 [%s] 已经过期了，请重新申请卡!\033[0m" % account)
+                exit()
+            elif data['status'] == 0:
+                print("\033[31;1m用户 [%s] 已经冻结，请到相应的银行解冻!\033[0m" % account)
+                exit()
             else:  # passed the authentication
                 access_logger = logger.card_log(account, 'access')
                 access_logger.info('%s用户进行登录%d次成功' % (account, retry))
@@ -41,8 +44,6 @@ def acc_auth2(account, password, retry):
             access_logger = logger.card_log(account, 'access')
             access_logger.info('%s用户进行登录,但是密码错误，还剩下%d次' % (account, all_count - retry))
             print("\033[31;1m密码错误，还剩下%d次\033[0m" % (all_count - retry))
-
-
     else:
         count = all_count - retry
         print('\033[31;1m用户名不存在，还剩下%d次\033[0m' % count)

@@ -8,7 +8,7 @@ from credit_card_shopping.log import logger
 
 def file_db_handle(conn_params):
     """选择读取文件"""
-    print('file db:', conn_params)
+    # print('file db:', conn_params)
     # db_path ='%s/%s' %(conn_params['path'],conn_params['name'])
     return file_execute
 
@@ -26,20 +26,19 @@ def file_execute(sql, **kwargs):
     conn_params = settings.DATABASE
     db_path = '%s/%s' % (conn_params['path'], conn_params['name'])
 
-    print(sql, db_path)
+    # print(sql, db_path)
     sql_list = sql.split("where")
-    print(sql_list)
+    # print(sql_list)
     if sql_list[0].startswith("select") and len(sql_list) > 1:  # has where clause
         column, val = sql_list[1].strip().split("=")
 
         if column == 'account':
             account_file = "%s/%s.json" % (db_path, val)
-            print(account_file)
+            # print(account_file)
             if os.path.isfile(account_file):
 
                 with open(account_file, 'rb') as f:
                     account_data = json.load(f)
-                    print('登录后显示的用户数据：', account_data, )
                     return account_data
             else:
                 print('没有这个用户，请重新输入')
@@ -48,7 +47,6 @@ def file_execute(sql, **kwargs):
         column, val = sql_list[1].strip().split("=")
         if column == 'account':
             account_file = "%s/%s.json" % (db_path, val)
-            # print(account_file)
             if os.path.isfile(account_file):
                 account_data = kwargs.get("account_data")
                 with open(account_file, 'w') as f:

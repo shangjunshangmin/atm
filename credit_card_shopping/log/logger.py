@@ -48,9 +48,9 @@ def card_log(username, log_type):
 
 def shop_log(username, log):
     # 定义一个购物日志函数
-    log_path = BASE_DIR + r'\log\shop_log\%s_shop.log' % username
+    log_path = settings.shop_log_path % username
 
-    logger = logging.getLogger('Test_LOG')
+    logger = logging.getLogger('shopping')
     logger.setLevel(logging.INFO)
 
     fh = logging.FileHandler(log_path, encoding='utf-8')

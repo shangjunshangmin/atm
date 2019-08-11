@@ -6,7 +6,8 @@ import sys
 import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+log_directory=BASE_DIR + r'\log\card_log'
+print(log_directory)
 DATABASE = {
     'engine': 'file_storage',
     'name': 'accounts',
@@ -30,3 +31,8 @@ TRANSACTION_TYPE = {
 }
 # 用户登录验证次数
 user_login_authentication_count = 3
+# 商品存放地址
+shop_path = BASE_DIR + r'\db\product_list'
+# 购物车存放地址
+shop_car_path = BASE_DIR + r'\db\shop_car\%s_shopcar.txt'
+shop_log_path=BASE_DIR + r'\log\shop_log\%s_shop.log'
