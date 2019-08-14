@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 11:37'
 import os
-import sys
 import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

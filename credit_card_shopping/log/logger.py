@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 11:36'
-import logging
-import os
 from credit_card_shopping.conf import settings
 
 import logging, sys, os

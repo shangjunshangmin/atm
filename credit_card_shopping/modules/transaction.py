@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 11:36'
 from credit_card_shopping.conf import settings
 from credit_card_shopping.modules import accounts
 from credit_card_shopping.log import logger
-
-from credit_card_shopping.core import main
-# transaction logger
 
 
 def make_transaction( account_data, tran_type, amount, **others):

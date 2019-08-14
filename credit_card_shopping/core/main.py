@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 10:59'
-import os
 from credit_card_shopping.modules import shopping, creditcard, admincenter, accounts
 from credit_card_shopping.core import auth
-from credit_card_shopping.log.logger import card_log
-from credit_card_shopping.conf import settings
-
 # 用户数据信息
 user_data = {
     'account_id': None,  # 帐号ID

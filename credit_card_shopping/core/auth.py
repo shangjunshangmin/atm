@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 11:21'
 from datetime import datetime
 import hashlib
-from credit_card_shopping.db import db_handler
 from credit_card_shopping.log import logger
 from credit_card_shopping.conf.settings import user_login_authentication_count
 from credit_card_shopping.modules import accounts

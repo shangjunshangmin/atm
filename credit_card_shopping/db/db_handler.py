@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'JUN SHANG'
-__date__ = '2019/7/27 0027 下午 11:37'
 import json, time, os
 from credit_card_shopping.conf import settings
-from credit_card_shopping.log import logger
 
 
 def file_db_handle(conn_params):
